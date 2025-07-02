@@ -1,0 +1,32 @@
+#networks:
+#  net_cprod:
+#    ipam:
+#      driver: default
+#    #config:
+#    #  - subnet: "192.168.0.0/24"
+
+services:
+  web:
+    container_name: web
+    image: cprod-web
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/web
+
+    environment:
+      - APP_IP=${APP_IP}
+      
+    # depends_on:
+    #  - app
+      
+    ports:
+      - 80:80
+  
+    #networks:  
+    #  net_cprod:
+    #    ipv4_address: APP_IP
+    
+    working_dir: /web
+

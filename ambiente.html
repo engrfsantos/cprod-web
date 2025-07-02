@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Lançamentos de Produção</title>
+
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+	 
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+	
+	<script th:src="@{http://code.jquery.com/jquery-1.8.3.js}"></script>
+    <script th:src="@{http://code.jquery.com/ui/1.9.2/jquery-ui.js}"></script>	
+	
+	<script src="/js/cprod.js"></script>
+	
+	<script type="text/javascript">	</script>
+</head>
+<body>
+	<div class="panel panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			<h1 class="panel-title">Configurar Ambiente</h1>
+		</div>
+	</div>
+	
+	<div class="panel panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			
+			<h1 class="panel-title">Filtros</h1>			
+			<form class="form-inline" method="GET" th:object="${producao}" th:action="@{/lancamento}" style="margin: 20px 0">			
+				<div class="form-group">					
+					<label for="setor">Usuario: </label>					
+					<input id="setor" type="text" class="form-control" name="nomeAcesso" th:value="${filtro.usuario.id}" style="width:120px;" >
+		  									
+					<label for="setorlist">Setor:</label>	
+					<input list="setorlist"  class="form-control"  th:value="${filtro.setor}">	
+					<datalist id="setorlist">					
+						<OPTION  th:each="setor : ${setores}"  th:text="${setor.id}" >  				
+					</datalist>		
+		 						
+					<label for="processolist">Processo:</label>	
+					<input list="processolist" class="form-control" name="processo" th:value="${filtro.processo}">		
+					<datalist id="processolist">					
+						<OPTION  th:each="processo : ${processos}"  th:text="${processo.id}" >  				
+					</datalist>				
+				
+					<label for="dt">Data:</label>
+					<input type="text" name="dt" id="dt" class="form-control" style="width:100px;" th:value="${filtro.dtS}" >						
+				</div>
+		
+				<button type="submit" class="btn btn-primary" style="background: gray; height: 30px;">Aplicar</button>				
+			</form>			
+		</div>
+	</div>
+
+	
+</body>
+</html>

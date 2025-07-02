@@ -1,0 +1,12 @@
+node_modules
+__pycache__
+.cprod
+.vscode
+.web
+.env
+.git        
+.DS_Store
+# Ignore common development files
+*.log
+*.swp
+*.swo

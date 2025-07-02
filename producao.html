@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Lançamentos de Produção</title>
+
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+	 
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+	
+	<script th:src="@{http://code.jquery.com/jquery-1.8.3.js}"></script>
+    <script th:src="@{http://code.jquery.com/ui/1.9.2/jquery-ui.js}"></script>	
+	
+	<script src="/js/producao.js"></script>
+	
+	<script type="text/javascript">	</script>
+</head>
+<body>
+	<div class="panel panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			<h1 class="panel-title">Lançamentos de Produção</h1>
+		</div>
+	</div>
+	
+	<div class="panel panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			
+			<h1 class="panel-title">Filtros</h1>			
+			<form class="form-inline" method="GET" th:object="${producao}" th:action="@{/producoes}" style="margin: 20px 0">			
+				<div class="form-group">					
+					<label for="setor">Usuario: </label>
+					
+					<input id="setor" type="text" class="form-control" name="re" th:value="${filtro.usuario.re}" style="width:80px;" >
+		  									
+					<label for="setorl">Local:</label>	
+					<input list="setorl" name="local" class="form-control"  th:value="${filtro.setor}">		
+		 			<datalist id="setorl">					
+						<OPTION  th:each="setor : ${setores}" th:text="${setor.desc}">							
+					</datalist>	
+								
+					<label for="postolist">Posto:</label>	
+					<input list="postolist" class="form-control" name="posto" th:value="${filtro.posto}">		
+					<datalist id="postolist">					
+						<OPTION  th:each="posto : ${postos}"  th:text="${posto.id}" >  				
+					</datalist>				
+				
+					<label for="dt">Data:</label>
+					<input type="text" name="dt" id="dt" class="form-control" style="width:100px;" th:value="${filtro.dtS}" >						
+				</div>
+		
+				<button type="submit" class="btn btn-primary" style="background: gray; height: 30px;">Aplicar</button>				
+			</form>			
+		</div>
+	</div>
+
+	<div class="panel panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			<form class="form-inline" method="POST" th:object="${producao}" th:action="@{/producoes}"   style="margin: 20px 0">
+				<table>
+					<tr>
+						<td><input id="inputLeitura" type="text" class="form-control" placeholder="Leitura" th:field="*{leitura}" style="width: 250px; "/></td>
+						<td> </td>
+						<td> <button type="submit" name="condicao" value="1" class="btn btn-primary" style="background: green; height: 30px;">Aprovado</button> </td>				
+						<td> <button type="submit" name="condicao" value="2" class="btn btn-primary" style="background: red; height: 30px;">Reprovado</button> </td>
+						<td> <button type="submit" name="condicao" value="3" class="btn btn-primary" style="background: orange; height: 30px;">Retrabalho</button> </td>
+						<td> <button type="submit" name="condicao" value="4" class="btn btn-primary" style="background: grey; height: 30px;">Sem Defeito</button> </td>
+					</tr>
+				</table>		
+			</form>
+		</div>		 	
+	</div>
+	
+	
+	<div id="div-producao" class="panel-body">
+	<table class="table">
+		<thead>
+			<tr id="linha-producao" onblur="AtualizarDefeitos">
+				<th>Def</th>
+				<th>ProduçãoID</th> <!-- style="visibility:hidden;" -->				
+				<th>Código</th>
+				<th>Descrição</th>
+				<th>Data</th>
+				<th>Hora</th>
+				<th>Posto</th>
+				<th>Leitura</th>
+				<th>Local</th>
+				<th>RE</th>
+				<th>Série</th>
+				<th>Condicao</th>
+				
+			</tr>
+		</thead>
+		<tbody>			
+				<tr th:each="producao : ${producoes}">
+				<form id="frmProducao" class="form-inline" method="get" th:object="${producao}" th:action="@{/producoes}"   style="margin: 20px 0">				
+					<td> <button type="submit" id="verdefeito" style="width: 20px; height: 20px;"></BUTTON></td>								
+					<td> <Input type="text" name="prodid" th:value="${producao.id}"  style="border:0; width: 50px;"><!-- style="visibility:hidden;"-->  </td>
+				</form>														
+				<td th:text="${producao.codigo}"></td>
+				<td th:text="${producao.descricao}"></td>
+				<td th:text="${producao.dt}"></td>
+				<td th:text="${producao.hr}"></td>
+				<td th:text="${producao.posto}"></td>
+				<td th:text="${producao.leitura}"></td>
+				<td th:text="${producao.setor}"></td>
+				<td th:text="${producao.re}"></td>
+				<td th:text="${producao.serie}"></td>
+				<td th:text="${producao.condicao.descBreve}"></td>							
+				</tr>
+		
+		</tbody>
+	</table>
+	</div>
+					
+	<div id="div-proddefeito" class="panel-body">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ProdDefID</th>
+					<th>ProdID</th>
+					<th>DefID</th>					
+					<th>Dt</th>
+					<th>Hr</th>					
+					<th>Bipagem/Cód/PN</th>
+					<th>Condicao</th>
+					<th>Análise</th>
+					<th>Reparo</th>
+				</tr>
+			</thead>
+			<tbody>				
+				<tr th:each="proddefeito : ${proddefeitos}">						
+					<td th:text="${proddefeito.id}"/></td>
+					<td th:text="${proddefeito.producaoId}"  /></td>
+					<td th:text= "${proddefeito.defeitoId}" /></td>						
+					<td th:text="${proddefeito.dt}"  /></td>
+					<td th:text="${proddefeito.hr}" /></td>						
+					<td  th:text="${proddefeito.serie}" /></td>
+					<td th:text="${proddefeito.condicao.descBreve}" /></td>						
+					<td th:text="${proddefeito.analise}" /></td>
+					<td th:text="${proddefeito.reparo}" /></td>						 
+				</tr>	
+				<form class="form-inline" method="PUT" th:object="${proddefeito}" th:action="@{/proddefeitos}" style="margin: 1px 0">
+					<tr>						
+						<td><input type="text" name="id" class="form-control" placeholder="id" th:value="${proddefeito.id}"/></td>
+						<td><input type="text" name="producaoId" class="form-control" placeholder="producaoId" th:value="${producao.id}"  /> </td>
+						<td><input type="text" name="defeitoId" class="form-control" placeholder="defeitoId" th:value="${proddefeito.defeitoId}"  /></td>						
+						<td><input type="text" name="dt" class="form-control" placeholder="dt" th:value="${producao.dt}" /></td>
+						<td><input type="text" name="hr" class="form-control" placeholder="hr" th:value="${producao.hr}" /></td>						
+						<td><input type="text" name="serie" class="form-control" placeholder="serie" th:value="${producao.serie}" /></td>
+						<td><input type="text" name="condicao" class="form-control" placeholder="condicao" th:value="${proddefeito.condicao}" /></td>						
+						<td><input type="text" name="analise" class="form-control" placeholder="analise" th:value="${proddefeito.analise}" /></td>
+						<td><input type="text" name="reparo" class="form-control" placeholder="reparo" th:value="${proddefeito.reparo}" /></td>										
+					</tr>				
+					<button type="submit" class="btn btn-primary" style="background: green; height: 30px;">Enviar</button>
+					<button type="submit" class="btn btn-primary" style="background: gray; height: 30px;">Limpar</button>
+				</form>  
+			</tbody>				
+		</table>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .login-container {
+            width: 300px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        
+		.login-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            -webkit-appearance: none; /* Remove a aparência padrão do select no Safari */
+            -moz-appearance: none; /* Remove a aparência padrão do select no Firefox */
+            appearance: none; /* Remove a aparência padrão do select */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' fill='%23000' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 6L0 0h10L5 6z'/%3E%3C/svg%3E"); /* Adiciona uma seta personalizada */
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 8px;
+            cursor: pointer;
+        }
+		
+		.login-container input[type="text"], 
+		.login-container input[type="password"]
+		{
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<script src="login.js"></script>
+<div class="login-container">
+    <h2>Controle de Produção</h2>
+    <form action="js/login" method="post">
+		<select name="Setor" >
+            <option value="ASST">ASST</option>
+            <option value="SUP">LAB</option>
+			<option value="ENG">ENG</option>
+			<option value="ENG">ENG</option>			
+        </select>
+		<select name="Processo" >
+            <option value="REPARO">REPARO</option>
+            <option value="IMPLANT">IMPLANT</option>
+			<option value="PREVENT">PREVENT</option>			
+        </select>
+        <input type="text" name="usuario" placeholder="Usuário" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+</body>
+</html>
